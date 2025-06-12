@@ -89,24 +89,15 @@ const Profile = () => {
           </div>
         </div>
 
+        {/* Saved Trivia Questions */}
+        <h2>Saved Trivia</h2>
+        <SavedTrivia />
+
         {/* Log Out */}
-        <div className="profile-actions">
+        <div className="profile-actions text-center">
           <button onClick={handleLogout} className="logout-button">
             Log Out
           </button>
-        </div>
-
-        {/* Saved Trivia Questions */}
-        <h2>Saved Trivia</h2>
-        <div className="profile-info">
-          <div className="info-item">
-            <span className="info-label">Question:</span>
-            <span className="info-value">In "The Binding of Isaac", what is the name of the final boss that you fight in The Void?</span>
-          </div>
-          <div className="info-item">
-            <span className="info-label">Answer:</span>
-            <span className="info-value">Delirium</span>
-          </div>
         </div>
 
         {/* Delete Account */}

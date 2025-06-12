@@ -1,32 +1,31 @@
+import { useState, useEffect } from 'react'
 import { useAuth } from "../context/AuthContext";
 import Button from 'react-bootstrap/Button'
 import ChoiceButton from './ChoiceButton'
 
 const QuestionCard = ({ question, selectedAnswer, onAnswer, showNext, onNext }) => {
   const { currentUser } = useAuth();
-  // const [saved, setSaved] = useState(false);
+  const [saved, setSaved] = useState(false);
 
-  const handleSave = () => {
-    // <Button
-    //   variant={saved ? 'outline-success' : 'outline-secondary'}
-    //   size="sm"
-    //   className="white-background"
-    //   onClick={handleSave}
-    //   disabled={saved}
-    // />
+  // Saves the trivia question to the user's profile
+  const handleSave = async () => {
+    if (saved) return // prevents duplicate saves apparently
 
-    // if (saved) return // prevent duplicate saves
+    const savedData = {
+      question: question.question,
+      answer: question.correct_answer,
+      category: question.category,
+      difficulty: question.difficulty,
+    }
 
-    // const savedData = {
-    //   question: question.question,
-    //   answer: question.correct_answer,
-    //   category: question.category,
-    //   difficulty: question.difficulty,
-    // }
-
-    // console.log('Saved:', savedData)
-    // setSaved(true)
+    console.log('Saved:', savedData)
+    setSaved(true)
   }
+
+  // Reset save state when new question is shown
+  useEffect(() => {
+    setSaved(false)
+  }, [question])
 
   return (
     <div className="bg-secondary-subtle py-4 px-3 rounded-2">
@@ -61,7 +60,15 @@ const QuestionCard = ({ question, selectedAnswer, onAnswer, showNext, onNext }) 
       {/* Option to save trivia question if user is logged in */}
       {showNext && currentUser ? (
         <div className="text-center mt-4">
-          <Button variant="outline-secondary white-background" size="sm" onClick={handleSave}>Save trivia to profile</Button>
+          <Button
+            variant={saved ? 'outline-success' : 'outline-secondary'}
+            size="sm"
+            className="white-background"
+            onClick={handleSave}
+            // disabled={saved}
+          >
+            {saved ? 'Saved!' : 'Save trivia to profile'}
+          </Button>
         </div>
       ) : null}
     </div>
