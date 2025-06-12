@@ -1,29 +1,28 @@
-import { 
-    collection, 
-    addDoc, 
-    query, 
-    where, 
-    orderBy,
-    getDocs, 
-    Timestamp,
-    deleteDoc
-  } from "firebase/firestore";
-  import { db } from "./firebase";
-  import { onSnapshot } from "firebase/firestore";
+import { db } from "./firebase";
+import {
+  collection,
+  addDoc,
+  query,
+  where,
+  orderBy,
+  onSnapshot,
+  doc,
+  deleteDoc
+} from "firebase/firestore";
 
-// Save a trivia question for a user
+// Saves a trivia question to Firestore
 export const saveTriviaQuestion = async (uid, trivia) => {
   return await addDoc(collection(db, "SavedTrivia"), {
     uid,
     question: trivia.question,
-    correctAnswer: trivia.correct_answer,
+    correctAnswer: trivia.correctAnswer,
     category: trivia.category,
     difficulty: trivia.difficulty,
     savedAt: new Date(),
   });
 };
 
-// Subscribe to a user's saved trivia
+// Real-time listener for saved trivia
 export const subscribeToUserTrivia = (uid, callback) => {
   const q = query(
     collection(db, "SavedTrivia"),
@@ -38,4 +37,9 @@ export const subscribeToUserTrivia = (uid, callback) => {
     }));
     callback(trivia);
   });
+};
+
+// Delete a single saved trivia
+export const deleteTriviaQuestion = async (id) => {
+  await deleteDoc(doc(db, "SavedTrivia", id));
 };

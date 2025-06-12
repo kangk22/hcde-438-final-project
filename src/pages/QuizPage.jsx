@@ -97,6 +97,23 @@ const QuizPage = () => {
     }
   }
 
+  const handleSave = async () => {
+  const q = questions[currentIndex];
+  const entry = {
+    question: q.question,
+    correctAnswer: q.correctAnswer,
+    category: q.category,
+    difficulty: q.difficulty,
+  };
+
+  try {
+    await saveTriviaQuestion(currentUser.uid, entry);
+    console.log("Trivia saved:", entry);
+  } catch (err) {
+    console.error("Error saving trivia:", err);
+  }
+};
+
   if (loading) {
     return (
       <Container className="text-center my-5">
@@ -158,6 +175,7 @@ const QuizPage = () => {
         onAnswer={handleAnswer}
         showNext={showNext}
         onNext={handleNext}
+        onSave={handleSave}
       />
     </Container>
   )

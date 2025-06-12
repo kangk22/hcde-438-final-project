@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useAuth } from "../context/AuthContext";
 import Button from 'react-bootstrap/Button'
 import ChoiceButton from './ChoiceButton'
+import { saveTriviaQuestion } from "../services/firestore";
 
 const QuestionCard = ({ question, selectedAnswer, onAnswer, showNext, onNext }) => {
   const { currentUser } = useAuth();
@@ -13,13 +14,20 @@ const QuestionCard = ({ question, selectedAnswer, onAnswer, showNext, onNext }) 
 
     const savedData = {
       question: question.question,
-      answer: question.correct_answer,
+      correctAnswer: question.correct_answer,
       category: question.category,
       difficulty: question.difficulty,
     }
 
     console.log('Saved:', savedData)
     setSaved(true)
+
+    try {
+      await saveTriviaQuestion(currentUser.uid, savedData);
+      console.log("Saved to Firestore:", savedData);
+    } catch (err) {
+      console.error("Error saving trivia:", err);
+    }
   }
 
   // Reset save state when new question is shown
@@ -65,7 +73,7 @@ const QuestionCard = ({ question, selectedAnswer, onAnswer, showNext, onNext }) 
             size="sm"
             className="white-background"
             onClick={handleSave}
-            // disabled={saved}
+          // disabled={saved}
           >
             {saved ? 'Saved!' : 'Save trivia to profile'}
           </Button>
