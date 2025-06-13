@@ -47,6 +47,7 @@ display the questions you saved in one session or without reloading the page.
 I'm not sure why this is the case, but since it seems that all the saved trivia remain in the Firestore database,
 it is likely due to a bug in my SavedTrivia.jsx file.
 <br/>
+<br/>
 Besides that, some other future enchancements I would like to make if I were to continue developing this website
 is to also track the user's highest score, both overall and within certain categories. I would also add a warning
 if the user presses on Register, Login, or Profile while in the middle of a quiz, since that would cause them to
